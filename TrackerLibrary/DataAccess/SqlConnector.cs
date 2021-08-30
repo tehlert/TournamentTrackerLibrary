@@ -96,7 +96,11 @@ namespace TrackerLibrary.DataAccess
                 // Save the prizes to the tournament
                 SaveTournamentPrizes(connection, model);
                 // Save the teams to the tournament
-                SaveTournamentEntries(connection, model); 
+                SaveTournamentEntries(connection, model);
+                // Save the rounds -- each round is a List of a List of Matchups and each Matchup is a List of (max 2) Entries
+                // List<List<MatchupModel>> Rounds
+                // List<MatchupEntryModel> Entries
+                SaveTournamentRounds(connection, model);
             }
         }
 
@@ -139,6 +143,61 @@ namespace TrackerLibrary.DataAccess
                 p.Add("@id",           0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                 connection.Execute("dbo.spTournamentEntries_Insert", p, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        private void SaveTournamentRounds(IDbConnection connection, TournamentModel model)
+        {            
+            // --- PLAN ---
+            // Loop through the rounds
+            // Loop through the matchups
+            // Save the matchup
+            // Loop through the entries and save them
+
+            // Loop through the rounds
+            foreach (List<MatchupModel> round in model.Rounds)
+            {
+                // Loop through the matchups
+                foreach (MatchupModel matchup in round)
+                {
+                    // Save the matchup
+                    var p = new DynamicParameters();
+                    p.Add("@TournamentId", model.Id);
+                    p.Add("@MatchupRound", matchup.MatchupRound);
+                    p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                    connection.Execute("dbo.spMatchups_Insert", p, commandType: CommandType.StoredProcedure);
+
+                    matchup.Id = p.Get<int>("@id");
+
+                    // Loop through the entries and save them
+                    foreach (MatchupEntryModel entry in matchup.Entries)
+                    {
+                        p = new DynamicParameters();     // use the p from above and override it (we dont need it)
+
+                        p.Add("@MatchupId", matchup.Id);
+                        if (entry.ParentMatchup == null)
+                        {
+                            p.Add("@ParentMatchupId", null);
+                        }
+                        else
+                        {
+                            p.Add("@ParentMatchupId", entry.ParentMatchup.Id);
+                        }
+
+                        if (entry.TeamCompeting == null)
+                        {
+                            p.Add("@TeamCompetingId", null);
+                        }
+                        else
+                        {
+                            p.Add("@TeamCompetingId", entry.TeamCompeting.Id);
+                        }
+                        p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                        connection.Execute("dbo.spMatchupEntries_Insert", p, commandType: CommandType.StoredProcedure);
+                    }
+                }
             }
         }
 

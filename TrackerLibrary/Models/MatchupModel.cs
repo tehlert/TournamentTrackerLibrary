@@ -10,6 +10,8 @@ namespace TrackerLibrary
     public class MatchupModel
     {
         public int Id { get; set; }
+
+
         /// <summary>
         /// This represents the teams involved in this matchup
         /// </summary>
@@ -17,7 +19,7 @@ namespace TrackerLibrary
         /// <summary>
         /// This represents the team that has won the matchup
         /// </summary>
-        public PrizeModel Winner { get; set; }
+        public TeamModel Winner { get; set; }
         /// <summary>
         /// This represents what round of the tournament
         /// this matchup is being played in

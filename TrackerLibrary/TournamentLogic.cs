@@ -5,6 +5,7 @@ using System.Text;
 
 namespace TrackerLibrary
 {
+    // Since we don't need to store data long term we make it static  -- aka -- our data comes in and goes out in the same method
     public static class TournamentLogic
     {
         // Order our list randomly of teams
@@ -20,11 +21,63 @@ namespace TrackerLibrary
             int rounds = FindNumberOfRounds(randomizedTeams.Count);
             // find the number of byes 
             int byes = NumberOfByes(rounds, randomizedTeams.Count);
+            // Create the first round with byes
+            model.Rounds.Add(CreateFirstRound(byes, randomizedTeams));
+            // Create the rest of the rounds and add them to our model
+            CreateOtherRounds(model, rounds);
+        }
+
+        private static void CreateOtherRounds(TournamentModel model, int rounds)
+        {
+            int round = 2;
+            List<MatchupModel> previousRound = model.Rounds[0];          // set the previous round to round[0] (first round) 
+            List<MatchupModel> currRound     = new List<MatchupModel>(); // new List for the current round (round 2)
+            MatchupModel       currMatchup   = new MatchupModel();       // new matchup model for each matchup in each round
+            // create rounds
+            while(round <= rounds)
+            {
+                foreach (MatchupModel match in previousRound)
+                {   // TODO - Take the winner of the previous round?
+                    currMatchup.Entries.Add(new MatchupEntryModel { ParentMatchup = match});
+                    // if we have more than one entry (2) add a new matchup to the round
+                    if(currMatchup.Entries.Count > 1)
+                    {
+                        currMatchup.MatchupRound = round;  // Sets the round we are in
+                        currRound.Add(currMatchup);        // Add the Matchup to the round
+                        currMatchup = new MatchupModel();  // Reset the matchup model in currMatchup 
+                    }
+                }
+
+                model.Rounds.Add(currRound);           // Add current round to our model
+                previousRound = currRound;             // Set the current round to the previous round so we can get the next round
+
+                currRound = new List<MatchupModel>();  // Reset currRound to be blank for the next round
+                round++;                               // increment to the next round
+            }
         }
 
         private static List<MatchupModel> CreateFirstRound(int byes, List<TeamModel> teams)
         {
+            List<MatchupModel> output = new List<MatchupModel>();
+            MatchupModel       curr   = new MatchupModel();
 
+            foreach(TeamModel team in teams)
+            {
+                curr.Entries.Add(new MatchupEntryModel { TeamCompeting = team });
+                // if byes then create a matchup with 1 entry OR if 2 entries create a matchup
+                if(byes > 0 || curr.Entries.Count > 1)
+                {
+                    curr.MatchupRound = 1;      // first round hardcoded
+                    output.Add(curr);           // Add the matchup to the list of first round matchups 
+                    curr = new MatchupModel();  // Reset the matchup model
+
+                    if(byes > 0)
+                    {   // if a bye got us here, get rid of one
+                        byes --;
+                    }
+                }
+            }
+            return output;
         }
 
         /// <summary>
@@ -38,7 +91,7 @@ namespace TrackerLibrary
             int output     = 0;
             int totalTeams = 1;
      
-            for (int i = 1; i <+ rounds; i++)
+            for (int i = 1; i <= rounds; i++)
             {
                 totalTeams *= 2;
             }
@@ -60,8 +113,8 @@ namespace TrackerLibrary
 
             while (val < teamCount)
             {
-                output += 1;
-                val *= 2;
+                output ++;
+                val = val * 2;
             }
 
             return output;

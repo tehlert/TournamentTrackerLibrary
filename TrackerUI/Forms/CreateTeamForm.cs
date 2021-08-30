@@ -144,7 +144,7 @@ namespace TrackerUI
 
         private void createTeamButton_Click(object sender, EventArgs e)
         {
-            PrizeModel t = new PrizeModel();
+            TeamModel t = new TeamModel();
 
             t.TeamName = teamNameValue.Text;
             t.TeamMembers = selectedTeamMembers;

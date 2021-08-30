@@ -134,8 +134,7 @@ namespace TrackerUI
             tm.Prizes          = selectedPrizes;
             tm.EnteredTeams    = selectedTeams;
 
-            // Wire up our matchups
-            // Call the create rounds method and pass our TournamentModel
+            // Wire up our matchups -- Call the create rounds method and pass our TournamentModel
             TournamentLogic.CreateRounds(tm);
 
             // Create tournament record

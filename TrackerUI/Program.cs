@@ -19,12 +19,12 @@ namespace TrackerUI
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Initialize the database connections
-            TrackerLibrary.GlobalConfig.InitializeConnection(DatabaseType.TextFile);
+            TrackerLibrary.GlobalConfig.InitializeConnection(DatabaseType.Sql);
             // TrackerLibrary.GlobalConfig.InitializeConnections(true, true);
 
             // This is where we change which form loads on launch
-            // Application.Run(new TournamentDashboardForm());
-            Application.Run(new CreateTournamentForm()); 
+            Application.Run(new TournamentDashboardForm());
+            //Application.Run(new CreateTournamentForm()); 
         }
     }
 }

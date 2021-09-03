@@ -123,6 +123,15 @@ namespace TrackerLibrary.DataAccess
             tournaments.Add(model);
 
             tournaments.SaveToTournamentFile(TournamentFile);
-        } 
+        }
+
+        // Since we had to load and prepare all the files for tournaments before creating the first one, this code was already done and used from above
+        public List<TournamentModel> GetTournament_All()
+        {
+            return TournamentFile
+                .FullFilePath()
+                .LoadFile()
+                .ConvertToTournamentModels(TeamFile, PeopleFile, PrizesFile);
+        }
     }
 }

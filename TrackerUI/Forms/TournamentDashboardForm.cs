@@ -30,5 +30,14 @@ namespace TrackerUI
             CreateTournamentForm frm = new CreateTournamentForm(); // create an instance of this class
             frm.Show();                                            // call the form to show
         }
+
+        private void loadTournamentButton_Click(object sender, EventArgs e)
+        {
+            // Cast the selected item in the drop down to TournamentModel
+            TournamentModel tm = (TournamentModel)loadExistingTournamentDropDown.SelectedItem;
+            // Pass the selected Tournament to the new form
+            TournamentViewerForm frm = new TournamentViewerForm(tm);
+            frm.Show();
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace TrackerUI
         private void InitializeComponent()
         {
             this.headerLabel = new System.Windows.Forms.Label();
-            this.TournamentViewer = new System.Windows.Forms.Label();
+            this.tournamentName = new System.Windows.Forms.Label();
             this.roundLabel = new System.Windows.Forms.Label();
             this.roundDropDown = new System.Windows.Forms.ComboBox();
             this.unplayedOnlyCheckBox = new System.Windows.Forms.CheckBox();
@@ -56,16 +56,16 @@ namespace TrackerUI
             this.headerLabel.TabIndex = 0;
             this.headerLabel.Text = "Tournament:";
             // 
-            // TournamentViewer
+            // tournamentName
             // 
-            this.TournamentViewer.AutoSize = true;
-            this.TournamentViewer.Font = new System.Drawing.Font("Segoe UI Light", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TournamentViewer.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.TournamentViewer.Location = new System.Drawing.Point(222, 25);
-            this.TournamentViewer.Name = "TournamentViewer";
-            this.TournamentViewer.Size = new System.Drawing.Size(150, 50);
-            this.TournamentViewer.TabIndex = 1;
-            this.TournamentViewer.Text = "<none>";
+            this.tournamentName.AutoSize = true;
+            this.tournamentName.Font = new System.Drawing.Font("Segoe UI Light", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tournamentName.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.tournamentName.Location = new System.Drawing.Point(222, 25);
+            this.tournamentName.Name = "tournamentName";
+            this.tournamentName.Size = new System.Drawing.Size(150, 50);
+            this.tournamentName.TabIndex = 1;
+            this.tournamentName.Text = "<none>";
             // 
             // roundLabel
             // 
@@ -86,6 +86,7 @@ namespace TrackerUI
             this.roundDropDown.Name = "roundDropDown";
             this.roundDropDown.Size = new System.Drawing.Size(208, 38);
             this.roundDropDown.TabIndex = 3;
+            this.roundDropDown.SelectedIndexChanged += new System.EventHandler(this.roundDropDown_SelectedIndexChanged);
             // 
             // unplayedOnlyCheckBox
             // 
@@ -109,6 +110,7 @@ namespace TrackerUI
             this.matchupListBox.Name = "matchupListBox";
             this.matchupListBox.Size = new System.Drawing.Size(308, 272);
             this.matchupListBox.TabIndex = 6;
+            this.matchupListBox.SelectedIndexChanged += new System.EventHandler(this.matchupListBox_SelectedIndexChanged);
             // 
             // teamOneName
             // 
@@ -131,7 +133,6 @@ namespace TrackerUI
             this.teamOneScoreLabel.Size = new System.Drawing.Size(82, 37);
             this.teamOneScoreLabel.TabIndex = 8;
             this.teamOneScoreLabel.Text = "Score";
-            this.teamOneScoreLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // teamOneScoreValue
             // 
@@ -213,12 +214,11 @@ namespace TrackerUI
             this.Controls.Add(this.unplayedOnlyCheckBox);
             this.Controls.Add(this.roundDropDown);
             this.Controls.Add(this.roundLabel);
-            this.Controls.Add(this.TournamentViewer);
+            this.Controls.Add(this.tournamentName);
             this.Controls.Add(this.headerLabel);
             this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "TournamentViewerForm";
             this.Text = "Tournament Viewer";
-            this.Load += new System.EventHandler(this.TournamentViewerForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,7 +227,7 @@ namespace TrackerUI
         #endregion
 
         private System.Windows.Forms.Label headerLabel;
-        private System.Windows.Forms.Label TournamentViewer;
+        private System.Windows.Forms.Label tournamentName;
         private System.Windows.Forms.Label roundLabel;
         private System.Windows.Forms.ComboBox roundDropDown;
         private System.Windows.Forms.CheckBox unplayedOnlyCheckBox;

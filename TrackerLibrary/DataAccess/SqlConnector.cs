@@ -11,7 +11,7 @@ namespace TrackerLibrary.DataAccess
     {
         private const string db = "Tournaments";
 
-        public PersonModel CreatePerson(PersonModel model)
+        public void CreatePerson(PersonModel model)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
             {
@@ -27,7 +27,6 @@ namespace TrackerLibrary.DataAccess
 
                 model.Id = p.Get<int>("@id"); // store the created and returned id for the new model
 
-                return model;
             }
         }
 
@@ -36,7 +35,7 @@ namespace TrackerLibrary.DataAccess
         /// </summary>
         /// <param name="model">The prize information</param>
         /// <returns>The prize informaiton, including the unique identifier</returns>
-        public PrizeModel CreatePrize(PrizeModel model)
+        public void CreatePrize(PrizeModel model)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
             {
@@ -52,11 +51,10 @@ namespace TrackerLibrary.DataAccess
                
                 model.Id = p.Get<int>("@id"); // store the created and returned id for the new model
 
-                return model;
             }
         }
 
-        public TeamModel CreateTeam(TeamModel model)
+        public void CreateTeam(TeamModel model)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
             {
@@ -77,7 +75,6 @@ namespace TrackerLibrary.DataAccess
 
                     connection.Execute("dbo.spTeamMembers_Insert", p, commandType: CommandType.StoredProcedure);
                 }
-                return model;
             }
         }
 

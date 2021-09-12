@@ -58,11 +58,11 @@ namespace TrackerUI
         {
             if (ValidateForm())
             {
-                PersonModel p = new PersonModel();
+                PersonModel p     = new PersonModel();
 
-                p.FirstName = firstNameValue.Text;
-                p.LastName = lastNameValue.Text;
-                p.EmailAddress = emailValue.Text;
+                p.FirstName       = firstNameValue.Text;
+                p.LastName        = lastNameValue.Text;
+                p.EmailAddress    = emailValue.Text;
                 p.CellphoneNumber = cellphoneValue.Text;
 
                 /*
@@ -77,8 +77,8 @@ namespace TrackerUI
                 WireUpLists();
 
                 firstNameValue.Text = "";
-                lastNameValue.Text = "";
-                emailValue.Text = "";
+                lastNameValue.Text  = "";
+                emailValue.Text     = "";
                 cellphoneValue.Text = "";
             }
             else

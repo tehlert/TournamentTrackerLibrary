@@ -98,6 +98,8 @@ namespace TrackerLibrary.DataAccess
                 // List<List<MatchupModel>> Rounds
                 // List<MatchupEntryModel> Entries
                 SaveTournamentRounds(connection, model);
+
+                TournamentLogic.UpdateTournamentResults(model);
             }
         }
 

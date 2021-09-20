@@ -6,6 +6,8 @@ namespace TrackerLibrary
 {
     public class TournamentModel
     {
+        public event EventHandler<DateTime> OnTournamentComplete;
+
         /// <summary>
         /// The unique identifier for the tournament
         /// </summary>
@@ -33,5 +35,10 @@ namespace TrackerLibrary
         /// </summary>
         public List<List<MatchupModel>> Rounds { get; set; } = new List<List<MatchupModel>>();
 
+        // Call this event when we know the tournament is complete -- add logging here if wanted
+        public void CompleteTournament()
+        {
+            OnTournamentComplete?.Invoke(this, DateTime.Now);
+        }
     }
 }

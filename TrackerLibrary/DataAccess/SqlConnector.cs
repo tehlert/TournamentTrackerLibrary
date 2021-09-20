@@ -367,5 +367,18 @@ namespace TrackerLibrary.DataAccess
             }
 
         }
+
+        public void CompleteTournament(TournamentModel model)
+        {
+            // Active column in database?
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+            {
+                // uses Dapper to create dynamic parameters and execute
+                var p = new DynamicParameters();
+                p.Add("@id", model.Id);
+
+                connection.Execute("dbo.spTournaments_Complete", p, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }
